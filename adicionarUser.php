@@ -1,3 +1,17 @@
+<?php
+$servername = "localhost"; 
+$username = "root"; 
+$password = "";
+$dbname = "nutri"; 
+
+
+$mysql = new mysqli("localhost", "root", "", "nutri");
+
+$consulta = "SELECT * FROM cadastriu";
+$mysql = $mysql ->query($consulta) or die($mysql -> error); 
+
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -13,7 +27,7 @@
   <meta name="author" content="" />
   <link rel="shortcut icon" href="images/favicon.png" type="">
 
-  <title> Orthoc </title>
+  <title> Nutri+ </title>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
@@ -37,18 +51,13 @@
 <body class="sub_page">
 
   <div class="hero_area">
-
-    <div class="hero_bg_box">
-      <img src="images/hero-bg.png" alt="">
-    </div>
-
-    <!-- header section strats -->
-    <header class="header_section">
+<!-- header section strats -->
+<header class="header_section">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="index.html">
             <span>
-              Orthoc
+            Nutri+
             </span>
           </a>
 
@@ -58,28 +67,32 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="index.html">Home </a>
+              <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about.html"> About</a>
+                <a class="nav-link" href="about.html"> Sobre</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="gRecomendNutri.html">Recomendação</a>
               </li>
-              <a class="nav-link" href="guser.html">Recomendação</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="gpacientes.html">Recomendação</a>
-            </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="departments.html">Departments <span class="sr-only">(current)</span> </a>
+              <li class="nav-item">
+                <a class="nav-link" href="guser.php">Usuarios</a>
+                </li>
+              <li class="nav-item">
+                <a class="nav-link" href="gpacientes.php">Pacientes</a>
+             </li>
+             <!--
+              <li class="nav-item">
+                <a class="nav-link" href="departments.html">Departments</a>
               </li>
+              
               <li class="nav-item">
                 <a class="nav-link" href="doctors.html">Doctors</a>
               </li>
+            -->
               <li class="nav-item">
-                <a class="nav-link" href="contact.html">Contact Us</a>
+                <a class="nav-link" href="contact.html">Contacte-nos</a>
               </li>
               <form class="form-inline">
                 <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
@@ -94,91 +107,43 @@
     <!-- end header section -->
   </div>
 
-  <!-- department section -->
+  <!-- adicionar paciente section -->
+  <section class="contact_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          Adicionar Usuario
+        </h2>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="form_container contact-form">
+            
+          <form action="processar_addU.php" method="post">
+            <input type="text" id="nome" name="nome" placeholder="Nome" required>
+            <input type="text" id="apelido" name="apelido" placeholder="Apelido" required>
+            <input type="number" id="idade" name="idade" placeholder="Idade" required>
 
-  <section class="department_section layout_padding">
-    <div class="department_container">
-      <div class="container ">
-        <div class="heading_container heading_center">
-          <h2>
-            Our Departments
-          </h2>
-          <p>
-            Asperiores sunt consectetur impedit nulla molestiae delectus repellat laborum dolores doloremque accusantium
-          </p>
-        </div>
-        <div class="row">
-          <div class="col-md-3">
-            <div class="box ">
-              <div class="img-box">
-                <img src="images/s1.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Cardiology
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable page when looking at its layout.
-                </p>
-              </div>
-            </div>
+            <div class="radio-buttons">
+                <label for="gender">Genero: </label>
+                <div>
+                  <label for="male" class="radio-inline"><input type="radio" name="gender" value="m" id="male" required>Masculino</label>
+                  <label for="female" class="radio-inline"><input type="radio" name="gender" value="f" id="female" required> Feminino </label>
+                </div>
+            </div>                
+
+            <input type="email" id="email" name="email" placeholder="E-mail" required>
+            <input type="password" id="senha" name="senha" placeholder="Senha" required>
+            <input type="number" id="telefone" name="telefone" placeholder="Telefone" required>
+            <button type="submit" class="btn" >Adicionar</button>
+        </form>
+
           </div>
-          <div class="col-md-3">
-            <div class="box ">
-              <div class="img-box">
-                <img src="images/s2.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Diagnosis
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable page when looking at its layout.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="box ">
-              <div class="img-box">
-                <img src="images/s3.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Surgery
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable page when looking at its layout.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="box ">
-              <div class="img-box">
-                <img src="images/s4.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  First Aid
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable page when looking at its layout.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="btn-box">
-          <a href="">
-            View All
-          </a>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- end department section -->
+  <!-- end contact section -->
 
   <!-- footer section -->
   <footer class="footer_section">
@@ -187,7 +152,7 @@
         <div class="col-md-6 col-lg-3 footer_col">
           <div class="footer_contact">
             <h4>
-              Reach at..
+              Fale conosco..
             </h4>
             <div class="contact_link_box">
               <a href="">
@@ -228,10 +193,13 @@
         <div class="col-md-6 col-lg-3 footer_col">
           <div class="footer_detail">
             <h4>
-              About
+              Sobre
             </h4>
             <p>
-              Beatae provident nobis mollitia magnam voluptatum, unde dicta facilis minima veniam corporis laudantium alias tenetur eveniet illum reprehenderit fugit a delectus officiis blanditiis ea.
+              Nutri+ é um sistema de recomendação nutricional online com base em inteligencia artificial, 
+              que usa inteligencia artificial para criar planos alimentares unico e precisos para diminuir 
+              o tempo de recuperação dos pacientes.
+              
             </p>
           </div>
         </div>
@@ -242,41 +210,38 @@
             </h4>
             <div class="footer_links">
               <a class="" href="index.html">
-                Home
+                Inicio
               </a>
-              <a class="" href="about.html">
+              <a class="active" href="about.html">
                 About
               </a>
-              <a class="active" href="departments.html">
-                Departments
+              <a class="" href="gRecomendNutri.html">
+                Recomendação
               </a>
-              <a class="" href="doctors.html">
-                Doctors
+              <a class="" href="gpacientes.php">
+                Pacientes
               </a>
               <a class="" href="contact.html">
-                Contact Us
+                Contacte-nos
               </a>
             </div>
           </div>
         </div>
         <div class="col-md-6 col-lg-3 footer_col ">
           <h4>
-            Newsletter
+            Quer receber noticias?
           </h4>
           <form action="#">
-            <input type="email" placeholder="Enter email" />
+            <input type="email" placeholder="Insira e-mail" />
             <button type="submit">
-              Subscribe
+              Subscreva
             </button>
           </form>
         </div>
       </div>
       <div class="footer-info">
         <p>
-          &copy; <span id="displayYear"></span> All Rights Reserved By
-          <a href="https://html.design/">Free Html Templates<br><br></a>
-            &copy; <span id="displayYear"></span> Distributed By
-            <a href="https://themewagon.com/">ThemeWagon</a>
+          &copy; <span id="displayYear"></span> Nutri+ 
         </p>
       </div>
     </div>

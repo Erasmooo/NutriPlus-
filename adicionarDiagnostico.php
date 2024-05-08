@@ -13,7 +13,7 @@
   <meta name="author" content="" />
   <link rel="shortcut icon" href="images/favicon.png" type="">
 
-  <title> Orthoc </title>
+  <title> Nutri+ </title>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
@@ -37,18 +37,13 @@
 <body class="sub_page">
 
   <div class="hero_area">
-
-    <div class="hero_bg_box">
-      <img src="images/hero-bg.png" alt="">
-    </div>
-
-    <!-- header section strats -->
-    <header class="header_section">
+<!-- header section strats -->
+<header class="header_section">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="index.html">
             <span>
-              Orthoc
+            Nutri+
             </span>
           </a>
 
@@ -58,28 +53,32 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="index.html">Home </a>
+              <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about.html"> About</a>
+                <a class="nav-link" href="about.html"> Sobre</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="gRecomendNutri.html">Recomendação</a>
               </li>
-              <a class="nav-link" href="guser.html">Recomendação</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="gpacientes.html">Recomendação</a>
-            </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="departments.html">Departments <span class="sr-only">(current)</span> </a>
+              <li class="nav-item">
+                <a class="nav-link" href="guser.php">Usuarios</a>
+                </li>
+              <li class="nav-item">
+                <a class="nav-link" href="gpacientes.php">Pacientes</a>
+             </li>
+             <!--
+              <li class="nav-item">
+                <a class="nav-link" href="departments.html">Departments</a>
               </li>
+              
               <li class="nav-item">
                 <a class="nav-link" href="doctors.html">Doctors</a>
               </li>
+            -->
               <li class="nav-item">
-                <a class="nav-link" href="contact.html">Contact Us</a>
+                <a class="nav-link" href="contact.html">Contacte-nos</a>
               </li>
               <form class="form-inline">
                 <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
@@ -94,91 +93,105 @@
     <!-- end header section -->
   </div>
 
-  <!-- department section -->
+  <!-- adicionar paciente section -->
+  <section class="contact_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          Adicionar Diagnostico Nutricional 
+        </h2>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="form_container contact-form">
+            
+          <form action="processar_diagnostico.php" method="post">
+          <label for="nome">Nome:</label>
+            <select id="paciente" name="paciente" required>
+                  <option value="" >Seleccione um paciente</option>
+              <?php
+              $servername = "localhost";
+              $username = "root";
+              $password = "";
+              $dbname = "nutri";
+  
+              // Criar uma conexão com o banco de dados
+              $conn = new mysqli($servername, $username, $password, $dbname);
+  
+              // Verificar a conexão
+              if ($conn->connect_error) {
+                  die("Connection failed: " . $conn->connect_error);
+              }
+  
+              // Consultar os pacientes no banco de dados
+              $consulta = "SELECT id, nome FROM paciente";
+              $resultado = $conn->query($consulta);
+  
+              // Verificar se a consulta retornou resultados
+              if ($resultado === false) {
+                  die("Erro na consulta: " . $conn->error);
+              }
+  
+              if ($resultado->num_rows > 0) {
+                  // Gerar as opções com base nos resultados da consulta
+                  while ($row = $resultado->fetch_assoc()) {
+                      echo '<option value="' . $row['id'] . '">' . $row['nome'] . '</option>';
+                  }
+              } else {
+                  echo '<option value="" disabled>Nenhum paciente encontrado</option>';
+              }
+  
+              // Fechar a conexão com o banco de dados
+              $conn->close();
+              ?>
 
-  <section class="department_section layout_padding">
-    <div class="department_container">
-      <div class="container ">
-        <div class="heading_container heading_center">
-          <h2>
-            Our Departments
-          </h2>
-          <p>
-            Asperiores sunt consectetur impedit nulla molestiae delectus repellat laborum dolores doloremque accusantium
-          </p>
-        </div>
-        <div class="row">
-          <div class="col-md-3">
-            <div class="box ">
-              <div class="img-box">
-                <img src="images/s1.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Cardiology
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable page when looking at its layout.
-                </p>
-              </div>
-            </div>
+              </select><br><br>
+
+            <label for="hemoglobina">Hemoglobina (g/dL):</label>
+            <input type="double" id="hemoglobina" name="hemoglobina" required> <br>
+
+            <label for="ferritina">Ferritina (ng/mL):</label>
+            <input type="double" id="ferritina" name="ferritina" required> <br>
+
+            <label for="albumina">Albumina (g/dL):</label>
+            <input type="double" id="albumina" name="albumina" required> <br>
+
+            <label for="vitaminab">Vitamina B12 (pg/mL):</label>
+            <input type="double" id="vitaminab" name="vitaminab" required> <br>
+
+            <label for="vitaminad">Vitamina D (ng/mL):</label>
+            <input type="double" id="vitaminad" name="vitaminad" required> <br>
+            
+            <label for="calcio">Cálcio (mg/dL):</label>
+            <input type="double" id="calcio" name="calcio" required> <br>
+
+            <label for="zinco">Zinco (µg/dL):</label>
+            <input type="double" id="zinco" name="zinco" required> <br>
+
+            <!-- <label for="acidof">Ácido Fólico:</label>
+            <input type="double" id="doenca_cronica" name="doencaCronica"> <br>
+
+            <label for="alergia">Proteína C-Reativa:</label>
+            <input type="double" id="alergia" name="alergia"> <br>
+
+            <label for="alergia">Glicose:</label>
+            <input type="double" id="alergia" name="alergia"> <br>
+
+            <label for="alergia">Proteína Lipídios:</label>
+            <input type="double" id="alergia" name="alergia"> <br>
+
+            <label for="alergia">Creatinina e Ureia:</label>
+            <input type="double" id="alergia" name="alergia"> <br> -->
+            
+            <button type="submit" class="btn" style="background-color: #62d2a2;">Registrar</button>
+        </form>
+
           </div>
-          <div class="col-md-3">
-            <div class="box ">
-              <div class="img-box">
-                <img src="images/s2.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Diagnosis
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable page when looking at its layout.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="box ">
-              <div class="img-box">
-                <img src="images/s3.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Surgery
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable page when looking at its layout.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="box ">
-              <div class="img-box">
-                <img src="images/s4.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  First Aid
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable page when looking at its layout.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="btn-box">
-          <a href="">
-            View All
-          </a>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- end department section -->
+  <!-- end contact section -->
 
   <!-- footer section -->
   <footer class="footer_section">
@@ -187,7 +200,7 @@
         <div class="col-md-6 col-lg-3 footer_col">
           <div class="footer_contact">
             <h4>
-              Reach at..
+              Fale conosco..
             </h4>
             <div class="contact_link_box">
               <a href="">
@@ -228,10 +241,13 @@
         <div class="col-md-6 col-lg-3 footer_col">
           <div class="footer_detail">
             <h4>
-              About
+              Sobre
             </h4>
             <p>
-              Beatae provident nobis mollitia magnam voluptatum, unde dicta facilis minima veniam corporis laudantium alias tenetur eveniet illum reprehenderit fugit a delectus officiis blanditiis ea.
+              Nutri+ é um sistema de recomendação nutricional online com base em inteligencia artificial, 
+              que usa inteligencia artificial para criar planos alimentares unico e precisos para diminuir 
+              o tempo de recuperação dos pacientes.
+              
             </p>
           </div>
         </div>
@@ -242,47 +258,44 @@
             </h4>
             <div class="footer_links">
               <a class="" href="index.html">
-                Home
+                Inicio
               </a>
-              <a class="" href="about.html">
+              <a class="active" href="about.html">
                 About
               </a>
-              <a class="active" href="departments.html">
-                Departments
+              <a class="" href="gRecomendNutri.html">
+                Recomendação
               </a>
-              <a class="" href="doctors.html">
-                Doctors
+              <a class="" href="gpacientes.php">
+                Pacientes
               </a>
               <a class="" href="contact.html">
-                Contact Us
+                Contacte-nos
               </a>
             </div>
           </div>
         </div>
         <div class="col-md-6 col-lg-3 footer_col ">
           <h4>
-            Newsletter
+            Quer receber noticias?
           </h4>
           <form action="#">
-            <input type="email" placeholder="Enter email" />
+            <input type="email" placeholder="Insira e-mail" />
             <button type="submit">
-              Subscribe
+              Subscreva
             </button>
           </form>
         </div>
       </div>
       <div class="footer-info">
         <p>
-          &copy; <span id="displayYear"></span> All Rights Reserved By
-          <a href="https://html.design/">Free Html Templates<br><br></a>
-            &copy; <span id="displayYear"></span> Distributed By
-            <a href="https://themewagon.com/">ThemeWagon</a>
+          &copy; <span id="displayYear"></span> Nutri+ 
         </p>
       </div>
     </div>
   </footer>
   <!-- footer section -->
-
+  
   <!-- jQery -->
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
   <!-- popper js -->

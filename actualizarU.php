@@ -1,3 +1,99 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "nutri";
+
+// Cria uma conexão com o banco de dados
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verifica a conexão
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Inicializa variáveis para armazenar os dados do paciente
+$nome = $apelido = $idade = $gender = $email = $senha = $telefone = '';
+
+// Verifica se o ID do utilizador foi fornecido na URL
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+
+    // Verifica se o formulário foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Obtém os dados do formulário
+        $nome = $_POST["nome"];
+        $apelido = $_POST["apelido"];
+        $idade = $_POST["idade"];
+        $gender = $_POST["gender"];
+        $email = $_POST["email"];
+        $senha = $_POST["senha"];
+        $telefone = $_POST["telefone"];
+
+        // Atualiza os dados do paciente no banco de dados
+        $stmt = $conn->prepare("UPDATE cadastriu SET nome=?, apelido=?, idade=?, gender=?, email=?, senha=?, telefone=? WHERE id=?");
+        $stmt->bind_param("ssisssii", $nome, $apelido, $idade, $gender, $email, $senha, $telefone, $id);
+
+        // Executa a atualização
+        $result = $stmt->execute();
+
+        // Verifica se a atualização foi bem-sucedida
+        if ($result) {
+            echo "Atualização bem-sucedida.";
+        } else {
+            echo "Erro na atualização: " . $stmt->error;
+        }
+
+        // Fecha a consulta
+        $stmt->close();
+    }
+
+    // Consulta o banco de dados para obter os dados atualizados do paciente
+    $stmt = $conn->prepare("SELECT * FROM cadastriu WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Verifica se o utilizador existe
+    if ($result->num_rows > 0) {
+        $paciente = $result->fetch_assoc();
+
+        // Atribui os valores às variáveis
+        $nome = $paciente['nome'];
+        $apelido = $paciente['apelido'];
+        $idade = $paciente['idade'];
+        $gender = $paciente['gender'];
+        $email = $paciente['email'];
+        $senha = $paciente['senha'];
+        $telefone = $paciente['telefone'];
+
+    } else {
+        echo "Utilizador não encontrado.";
+    }
+
+    // Fecha a consulta
+    $stmt->close();
+} else {
+    echo "ID de utilizador não fornecido.";
+}
+
+// Fecha a conexão com o banco de dados
+$conn->close();
+?>
+
+<?php
+// Verifica se o formulário foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Processa os dados do formulário e realiza a atualização no banco de dados
+
+    // ... (Código de processamento da atualização)
+
+    // Redireciona para listarP.php após a atualização
+    header("Location: guser.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -13,7 +109,7 @@
   <meta name="author" content="" />
   <link rel="shortcut icon" href="images/favicon.png" type="">
 
-  <title> Orthoc </title>
+  <title> Nutri+ </title>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
@@ -37,18 +133,13 @@
 <body class="sub_page">
 
   <div class="hero_area">
-
-    <div class="hero_bg_box">
-      <img src="images/hero-bg.png" alt="">
-    </div>
-
-    <!-- header section strats -->
-    <header class="header_section">
+<!-- header section strats -->
+<header class="header_section">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="index.html">
             <span>
-              Orthoc
+            Nutri+
             </span>
           </a>
 
@@ -58,28 +149,32 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="index.html">Home </a>
+              <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about.html"> About</a>
+                <a class="nav-link" href="about.html"> Sobre</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="gRecomendNutri.html">Recomendação</a>
               </li>
-              <a class="nav-link" href="guser.html">Recomendação</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="gpacientes.html">Recomendação</a>
-            </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="departments.html">Departments <span class="sr-only">(current)</span> </a>
+              <li class="nav-item">
+                <a class="nav-link" href="guser.php">Usuarios</a>
+                </li>
+              <li class="nav-item">
+                <a class="nav-link" href="gpacientes.pgp">Pacientes</a>
+             </li>
+             <!--
+              <li class="nav-item">
+                <a class="nav-link" href="departments.html">Departments</a>
               </li>
+              
               <li class="nav-item">
                 <a class="nav-link" href="doctors.html">Doctors</a>
               </li>
+            -->
               <li class="nav-item">
-                <a class="nav-link" href="contact.html">Contact Us</a>
+                <a class="nav-link" href="contact.html">Contacte-nos</a>
               </li>
               <form class="form-inline">
                 <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
@@ -94,91 +189,56 @@
     <!-- end header section -->
   </div>
 
-  <!-- department section -->
-
-  <section class="department_section layout_padding">
-    <div class="department_container">
-      <div class="container ">
-        <div class="heading_container heading_center">
-          <h2>
-            Our Departments
-          </h2>
-          <p>
-            Asperiores sunt consectetur impedit nulla molestiae delectus repellat laborum dolores doloremque accusantium
-          </p>
-        </div>
-        <div class="row">
-          <div class="col-md-3">
-            <div class="box ">
-              <div class="img-box">
-                <img src="images/s1.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Cardiology
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable page when looking at its layout.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="box ">
-              <div class="img-box">
-                <img src="images/s2.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Diagnosis
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable page when looking at its layout.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="box ">
-              <div class="img-box">
-                <img src="images/s3.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Surgery
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable page when looking at its layout.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="box ">
-              <div class="img-box">
-                <img src="images/s4.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  First Aid
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable page when looking at its layout.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="btn-box">
-          <a href="">
-            View All
-          </a>
-        </div>
+  <!-- Actualizar paciente section -->
+  <section class="contact_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          Actualizar Usuario
+        </h2>
       </div>
-    </div>
-  </section>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="form_container contact-form">
+            
+          
+        <form  method="post">
+            <!-- Os campos do formulário com os valores do paciente -->
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" value="<?php echo $nome; ?>" required> <br>
 
-  <!-- end department section -->
+            <label for="apelido">Apelido:</label>
+            <input type="text" id="apelido" name="apelido" value="<?php echo $apelido; ?>" required> <br>
+
+            <label for="idade">Idade:</label>
+            <input type="number" id="idade" name="idade" value="<?php echo $idade; ?>" required> <br>
+
+            <div class="radio-buttons">
+                <label for="gender">Gênero: </label>
+                <div>
+                  <label for="male" class="radio-inline">
+                      <input type="radio" name="gender" value="m" id="male" <?php echo ($gender == 'm') ? 'checked' : ''; ?> required>Masculino
+                  </label>
+                  <label for="female" class="radio-inline">
+                      <input type="radio" name="gender" value="f" id="female" <?php echo ($gender == 'f') ? 'checked' : ''; ?> required>Feminino
+                  </label>
+                </div>
+            </div>    
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" value="<?php echo $email; ?>" required> <br>
+
+            <label for="telefone">Senha:</label>
+            <input type="text" id="senha" name="senha" value="<?php echo $senha; ?>" required> <br>
+
+            <label for="telefone">Telefone:</label>
+            <input type="number" id="telefone" name="telefone" value="<?php echo $telefone; ?>" required> <br>
+
+            <button type="submit" class="btn" style="background-color: #62d2a2;">Atualizar</button>
+        </form>
+          </div>
+  </section>
+  <!-- end contact section -->
 
   <!-- footer section -->
   <footer class="footer_section">
@@ -247,13 +307,13 @@
               <a class="" href="about.html">
                 About
               </a>
-              <a class="active" href="departments.html">
+              <a class="" href="departments.html">
                 Departments
               </a>
               <a class="" href="doctors.html">
                 Doctors
               </a>
-              <a class="" href="contact.html">
+              <a class="active" href="contact.html">
                 Contact Us
               </a>
             </div>
