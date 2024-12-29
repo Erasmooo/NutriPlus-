@@ -6,6 +6,9 @@ $consulta = "SELECT * FROM paciente";
 $mysql = $mysql ->query($consulta) or die($mysql -> error); 
 
 ?>
+
+
+
 <!DOCTYPE html>
 <html>
 
@@ -62,7 +65,7 @@ $mysql = $mysql ->query($consulta) or die($mysql -> error);
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
               <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.html">Início <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="about.html"> Sobre</a>
@@ -71,7 +74,7 @@ $mysql = $mysql ->query($consulta) or die($mysql -> error);
                 <a class="nav-link" href="gRecomendNutri.html">Recomendação</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="guser.php">Usuarios</a>
+                <a class="nav-link" href="guser.php">Utilizador</a>
                 </li>
               <li class="nav-item">
                 <a class="nav-link" href="gpacientes.php">Pacientes</a>
@@ -128,7 +131,7 @@ $mysql = $mysql ->query($consulta) or die($mysql -> error);
                   Adicionar Paciente
                 </h5>
                 <p>
-                  fact that a reader will be distracted by the readable page when looking at its layout.
+                  Adicione um novo paciente.
                 </p>
               </div>
             </button>

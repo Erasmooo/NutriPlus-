@@ -81,7 +81,7 @@
             <a class="nav-link" href="gRecomendNutri.html">Recomendação</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="guser.php">Usuarios</a>
+            <a class="nav-link" href="guser.php">Utilizador</a>
             </li>
           <li class="nav-item">
             <a class="nav-link" href="gpacientes.pgp">Pacientes</a>

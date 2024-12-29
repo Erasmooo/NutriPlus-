@@ -54,7 +54,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
               <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.html">Início <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="about.html"> Sobre</a>
@@ -63,7 +63,7 @@
                 <a class="nav-link" href="gRecomendNutri.html">Recomendação</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="guser.php">Usuarios</a>
+                <a class="nav-link" href="guser.php">Utilizador</a>
                 </li>
               <li class="nav-item">
                 <a class="nav-link" href="gpacientes.php">Pacientes</a>
@@ -137,6 +137,15 @@
 
             <label for="circunferenciCintura">Circunferência da Cintura:</label>
             <input type="double" id="circunferenciaCintura" name="circunferenciaCintura" required> <br>
+
+            <!-- <label for="imc">Indice de Massa Corporal:</label>
+            <input type="double" id="imc" name="imc" readonly> <br>
+
+            <label for="pb">Peso burto:</label>
+            <input type="double" id="pb" name="pb" readonly> <br>
+
+            <label for="imca">Indice de massa corporal em relação a altura:</label>
+            <input type="double" id="imca" name="imca" readonly> <br> -->
 
             <label for="doenca_cronica">Doença Crônica:</label>
             <input type="text" id="doenca_cronica" name="doencaCronica"> <br>

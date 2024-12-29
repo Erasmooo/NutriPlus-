@@ -35,7 +35,7 @@ if (isset($_GET['id'])) {
         // Update the diagnostic data in the `diagnostio` table
         $stmt = $conn->prepare("UPDATE diagnostio SET nome_paciente=?, apelido_paciente=?, hemoglobina=?, ferritina=?, albumina=?, vitaminab=?, vitaminad=?, calcio=?, zinco=? WHERE id=?");
         $stmt->bind_param("ssdddddddi", $nome_paciente, $apelido_paciente, $hemoglobina, $ferritina, $albumina, $vitaminab, $vitaminad, $calcio, $zinco, $id);
-
+        $stmt->bind_param("ssdddddddi", $nome_paciente, $apelido_paciente, $hemoglobina, $ferritina, $albumina, $vitaminab, $vitaminad, $calcio, $zinco, $id);
         // Execute the update statement
         $result = $stmt->execute();
 
@@ -87,6 +87,7 @@ if (isset($_GET['id'])) {
 // Close the database connection
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -144,7 +145,7 @@ $conn->close();
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
               <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.html">Início <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="about.html"> Sobre</a>
@@ -153,7 +154,7 @@ $conn->close();
                 <a class="nav-link" href="gRecomendNutri.html">Recomendação</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="guser.php">Usuarios</a>
+                <a class="nav-link" href="guser.php">Utilizador</a>
                 </li>
               <li class="nav-item">
                 <a class="nav-link" href="gpacientes.pgp">Pacientes</a>
@@ -197,8 +198,11 @@ $conn->close();
             
 
         <form method="post">
-            <label for="nome">Nome do Paciente:</label>
-            <input type="text" id="nome" name="nome" value="<?php echo $nome_paciente; ?>"readonly><br> 
+        <label for="nome_paciente">Nome do Paciente:</label>
+    <input type="text" id="nome_paciente" name="nome_paciente" value="<?php echo $nome_paciente; ?>" readonly required><br>
+
+    <label for="apelido_paciente">Apelido do Paciente:</label>
+    <input type="text" id="apelido_paciente" name="apelido_paciente" value="<?php echo $apelido_paciente; ?>" readonly required><br>
 
             <label for="hemoglobina">Hemoglobina (g/dL):</label>
             <input type="double" id="hemoglobina" name="hemoglobina" value="<?php echo $hemoglobina; ?>" required> <br>
@@ -307,7 +311,7 @@ $conn->close();
             </h4>
             <div class="footer_links">
               <a class="" href="index.html">
-                Home
+              Início
               </a>
               <a class="" href="about.html">
                 About
